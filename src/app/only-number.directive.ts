@@ -11,10 +11,11 @@ export class OnlyNumberDirective {
   constructor(private el: ElementRef) { }
 
   @HostListener('change') onChange() {
-    if (this.el.nativeElement.value) {
-      this.el.nativeElement.value = this.strEegEx(this.el.nativeElement.value);
-    }
-
+	if (this.onlyNumber) {
+		if (this.el.nativeElement.value) {
+			this.el.nativeElement.value = this.strEegEx(this.el.nativeElement.value);
+		  }
+	}
   }
 
   @HostListener('keydown', ['$event']) onKeyDown(event) {
@@ -37,22 +38,22 @@ export class OnlyNumberDirective {
       }
       // Ensure that it is a number and stop the keypress
       if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105) && e.keyCode != 229) {
-        // console.log("keydown2");
         e.preventDefault();
       }
     }
-
   }
 
   @HostListener('keyup', ['$event']) onkeyup(event) {
-    let e = <KeyboardEvent>event;
-    if (this.regEx.test(this.el.nativeElement.value)) {
-      return;
-    } else {
-      e.preventDefault();
-      this.el.nativeElement.value = this.strEegEx(this.el.nativeElement.value);
-    }
+	let e = <KeyboardEvent>event;
+	if (this.onlyNumber){
+		if (this.regEx.test(this.el.nativeElement.value)) {
+			return;
+		  } else {
+			this.el.nativeElement.value = this.strEegEx(this.el.nativeElement.value);
+		  }
+	}
   }
+  
   private strEegEx(s: string): string {
     let newStr = s.split('').map(x => {
       if (this.regEx.test(x)) {
