@@ -19,6 +19,7 @@ export class OnlyNumberDirective {
 
   @HostListener('keydown', ['$event']) onKeyDown(event) {
     let e = <KeyboardEvent>event;
+    console.log(e.keyCode);
     if (this.onlyNumber) {
 
       if ([46, 8, 9, 27, 13, 110, 190].indexOf(e.keyCode) !== -1 ||
@@ -36,7 +37,7 @@ export class OnlyNumberDirective {
         return;
       }
       // Ensure that it is a number and stop the keypress
-      if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+      if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105) && e.keyCode != 229) {
         // console.log("keydown2");
         e.preventDefault();
       }
