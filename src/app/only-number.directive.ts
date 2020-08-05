@@ -1,4 +1,4 @@
-import { Directive, HostListener, Input, ElementRef } from "@angular/core";
+import { Directive, HostListener, Input, ElementRef, Renderer } from "@angular/core";
 
 @Directive({
   selector: "[onlyNumber]"
@@ -7,7 +7,7 @@ export class OnlyNumberDirective {
   regexStr = "^[0-9]*$";
   regEx = new RegExp(this.regexStr);
   @Input() onlyNumber: boolean;
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef, private renderer: Renderer) {}
 
   @HostListener("input", ["$event"]) oninput(event) {
     let e = <InputEvent>event;
@@ -20,6 +20,18 @@ export class OnlyNumberDirective {
           this.el.nativeElement.value
         );
       }
+
+      let event: Event = document.createEvent("Event");
+        event.initEvent("input", true, true);
+        Object.defineProperty(event, "target", {
+          value: this.el.nativeElement,
+          enumerable: true
+        });
+        this.renderer.invokeElementMethod(
+          this.el.nativeElement,
+          "dispatchEvent",
+          [event]
+        );
     }
   }
 

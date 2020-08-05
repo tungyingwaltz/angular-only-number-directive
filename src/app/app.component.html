@@ -2,5 +2,15 @@
 <p>
   only key in number string
 </p>
-
-<input type="text" [onlyNumber]="true">
+<div [formGroup]="formGroup">
+  number text:
+	<input type="text" formControlName="testNumber" [onlyNumber]="true">
+</div>
+	<br>
+	<textarea></textarea>
+	<div>
+		<p>
+			Value:
+			{{testNumber.value}}
+		</p>
+	</div>
